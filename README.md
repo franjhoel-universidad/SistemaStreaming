@@ -1,4 +1,4 @@
-```markdown
+
 # 📡 Sistema de Streaming IoT: Android a AWS (RTMP -> HLS)
 
 [![Language](https://img.shields.io/badge/Kotlin-Android-green.svg)](https://kotlinlang.org/)
