@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ULTRA LOW LATENCY</title>
+    <style>
+        body { background: #000; color: #0f0; font-family: monospace; text-align: center; }
+        video { width: 100%; max-width: 800px; border: 2px solid #0f0; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>VISOR TURBO HLS</h1>
+    <video id="video" controls autoplay muted playsinline></video>
+    <div id="status">Conectando...</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        var video = document.getElementById('video');
+        var videoSrc = 'http://18.223.44.139/hls/stream.m3u8'; // REVISA TU IP
+
+        if (Hls.isSupported()) {
+            var hls = new Hls({
+                // CONFIGURACIÓN AGRESIVA
+                enableWorker: true,
+                lowLatencyMode: true,
+                backBufferLength: 0,       // No guardar nada atrás
+                liveSyncDurationCount: 2,  // Estar solo 2 fragmentos (2 seg) detrás del real
+                liveMaxLatencyDurationCount: 3, // Si se atrasa 3 seg, saltar adelante
+            });
+            
+            hls.loadSource(videoSrc);
+            hls.attachMedia(video);
+            
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                document.getElementById('status').innerText = "STREAMING ACTIVO";
+                video.play();
+            });
+        }
+    </script>
+</body>
+</html>
